@@ -1,0 +1,131 @@
+﻿@model ParkingCore.Models.OrderInvoid
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    DateTime a = DateTime.Now;
+}
+
+
+
+
+<table class="body-wrap">
+    <tbody>
+        <tr>
+            <td></td>
+            <td class="container" width="600">
+                <div class="content">
+                    <table class="main" width="100%" cellpadding="0" cellspacing="0">
+                        <tbody>
+                            <tr>
+                                <td class="content-wrap aligncenter">
+                                    <table width="100%" cellpadding="0" cellspacing="0">
+                                        <tbody>
+                                            <tr>
+                                                <td class="content-block">
+                                                    <h2>Thông tin đặt chỗ</h2>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="content-block">
+                                                    <table class="invoice">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    Mã hóa đơn:                  @Model.OrdID
+                                                                    <br>Tên khách hàng:           @Model.CusName
+                                                                    <br>   Mã đặt chõ:           @Model.BookingID
+                                                                    <br>   Mã ô đỗ:           @Model.PkSlotID
+                                                                    <br>   Vị trí ô đỗ:           @Model.SlotNo
+                                                                    <br>Số điện thoại:           @Model.Phone
+                                                                    <br>Biển số xe:          @Model.CarNo
+
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <table class="invoice-items" cellpadding="0" cellspacing="0">
+                                                                        <tbody>
+
+                                                                            @{
+                                                                                <tr>
+                                                                                    <td>Thời gian vào</td>
+                                                                                    <td class="alignright">@Model.DateIn</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>Thời gian ra dự kiến</td>
+                                                                                    <td class="alignright">@Model.ExpOut</td>
+                                                                                </tr>
+                                                                                int? day = (Model.ExpOut - a).Days;
+                                                                                int? hour = (Model.ExpOut - a).Hours;
+                                                                                int? minutes = (Model.ExpOut - a).Minutes;
+                                                                                int? dayl = (a - Model.ExpOut).Days;
+                                                                                int? hourl = (a - Model.ExpOut).Hours;
+                                                                                int? minutel = (a - Model.ExpOut).Minutes;
+                                                                                if (day > 0 || hour > 0 || minutes > 0)
+
+                                                                                {
+                                                                                    <tr>
+                                                                                        <td>Thời gian còn</td>
+                                                                                        <td class="alignright"> @day ngày @hour giờ @minutes phút</td>
+                                                                                    </tr>
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <tr>
+                                                                                        <td>Quá hạng dự kiến</td>
+                                                                                        <td class="alignright">@dayl ngày @hourl giờ @minutel phútt</td>
+                                                                                    </tr>
+
+                                                                                }
+                                                                            }
+                                                                            <tr>
+                                                                                <td>Thời gian xuất bãi</td>
+                                                                                <td class="alignright">@Model.DateOut</td>
+                                                                            </tr>
+                                                                            <tr class="total">
+                                                                                <td class="alignright" width="80%">Tiền phạt</td>
+                                                                                <td class="alignright"> @String.Format("{0:0,0 vnđ}", @Model.Fine)</td>
+                                                                            </tr>
+                                                                            <tr class="total">
+                                                                                <td class="alignright" width="80%">Thành tiền dự kiến</td>
+                                                                                <td class="alignright"> @String.Format("{0:0,0 vnđ}", @Model.ExpTotalPrice)</td>
+                                                                            </tr>
+                                                                            <tr class="total">
+                                                                                <td class="alignright" width="80%">Tổng tiền</td>
+                                                                                <td class="alignright"> @String.Format("{0:0,0 vnđ}", @Model.TotalPrice)</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="footer">
+                        <table width="100%">
+                            <tbody>
+                                <tr>
+                                    <td class="aligncenter content-block">Questions? Email <a href="mailto:">support@company.inc</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.OrdID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,492 @@
+﻿@model IEnumerable<ParkingCore.Models.ParkingSlot>
+@using System.Linq
+@{
+    var Floor = ViewBag.Floor;
+    var PkID = ViewBag.pkID;
+    var BookingList = (List<ParkingCore.Models.Booking>)ViewBag.Bookings;
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section header{
+   Quản Lý Bãi Đỗ
+}
+<div class="container-fluid">
+    <div class="page-header min-height-300 border-radius-xl mt-4" style="background-image: url('../assets/img/curved-images/curved0.jpg'); background-position-y: 50%;">
+        <span class="mask bg-gradient-primary opacity-6"></span>
+    </div>
+    <div class="card card-body blur shadow-blur mx-4 mt-n6 overflow-hidden">
+        <div class="row gx-4">
+            <div class="col-auto">
+                <div class="avatar avatar-xl position-relative">
+                    <img src="../assets/img/long.png" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
+                </div>
+            </div>
+            <div class="col-auto my-auto">
+                <div class="h-100">
+                    <h5 class="mb-1">
+                        Quản trị viên
+                    </h5>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
+                <div class="nav-wrapper position-relative end-0">
+                    <ul class="nav nav-pills nav-fill p-1 bg-transparent" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link mb-0 px-0 py-1 active op-addParkingSlot " data-toggle="modal" data-target="#modal-form2" data-id2="@PkID" data-bs-toggle="tab" href="addParkingSlot;" role="tab" aria-selected="true">
+                                <svg class="text-dark" width="16px" height="16px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <g transform="translate(-2319.000000, -291.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                                            <g transform="translate(1716.000000, 291.000000)">
+                                                <g transform="translate(603.000000, 0.000000)">
+                                                    <path class="color-background" d="M22.7597136,19.3090182 L38.8987031,11.2395234 C39.3926816,10.9925342 39.592906,10.3918611 39.3459167,9.89788265 C39.249157,9.70436312 39.0922432,9.5474453 38.8987261,9.45068056 L20.2741875,0.1378125 L20.2741875,0.1378125 C19.905375,-0.04725 19.469625,-0.04725 19.0995,0.1378125 L3.1011696,8.13815822 C2.60720568,8.38517662 2.40701679,8.98586148 2.6540352,9.4798254 C2.75080129,9.67332903 2.90771305,9.83023153 3.10122239,9.9269862 L21.8652864,19.3090182 C22.1468139,19.4497819 22.4781861,19.4497819 22.7597136,19.3090182 Z">
+                                                    </path>
+                                                    <path class="color-background" d="M23.625,22.429159 L23.625,39.8805372 C23.625,40.4328219 24.0727153,40.8805372 24.625,40.8805372 C24.7802551,40.8805372 24.9333778,40.8443874 25.0722402,40.7749511 L41.2741875,32.673375 L41.2741875,32.673375 C41.719125,32.4515625 42,31.9974375 42,31.5 L42,14.241659 C42,13.6893742 41.5522847,13.241659 41,13.241659 C40.8447549,13.241659 40.6916418,13.2778041 40.5527864,13.3472318 L24.1777864,21.5347318 C23.8390024,21.7041238 23.625,22.0503869 23.625,22.429159 Z" opacity="0.7"></path>
+                                                    <path class="color-background" d="M20.4472136,21.5347318 L1.4472136,12.0347318 C0.953235098,11.7877425 0.352562058,11.9879669 0.105572809,12.4819454 C0.0361450918,12.6208008 6.47121774e-16,12.7739139 0,12.929159 L0,30.1875 L0,30.1875 C0,30.6849375 0.280875,31.1390625 0.7258125,31.3621875 L19.5528096,40.7750766 C20.0467945,41.0220531 20.6474623,40.8218132 20.8944388,40.3278283 C20.963859,40.1889789 21,40.0358742 21,39.8806379 L21,22.429159 C21,22.0503869 20.7859976,21.7041238 20.4472136,21.5347318 Z" opacity="0.7"></path>
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </svg>
+                                <span class="ms-1">Thêm ô đỗ</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
+                                <svg class="text-dark" width="16px" height="16px" viewBox="0 0 40 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <title>document</title>
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <g transform="translate(-1870.000000, -591.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                                            <g transform="translate(1716.000000, 291.000000)">
+                                                <g transform="translate(154.000000, 300.000000)">
+                                                    <path class="color-background" d="M40,40 L36.3636364,40 L36.3636364,3.63636364 L5.45454545,3.63636364 L5.45454545,0 L38.1818182,0 C39.1854545,0 40,0.814545455 40,1.81818182 L40,40 Z" opacity="0.603585379"></path>
+                                                    <path class="color-background" d="M30.9090909,7.27272727 L1.81818182,7.27272727 C0.814545455,7.27272727 0,8.08727273 0,9.09090909 L0,41.8181818 C0,42.8218182 0.814545455,43.6363636 1.81818182,43.6363636 L30.9090909,43.6363636 C31.9127273,43.6363636 32.7272727,42.8218182 32.7272727,41.8181818 L32.7272727,9.09090909 C32.7272727,8.08727273 31.9127273,7.27272727 30.9090909,7.27272727 Z M18.1818182,34.5454545 L7.27272727,34.5454545 L7.27272727,30.9090909 L18.1818182,30.9090909 L18.1818182,34.5454545 Z M25.4545455,27.2727273 L7.27272727,27.2727273 L7.27272727,23.6363636 L25.4545455,23.6363636 L25.4545455,27.2727273 Z M25.4545455,20 L7.27272727,20 L7.27272727,16.3636364 L25.4545455,16.3636364 L25.4545455,20 Z">
+                                                    </path>
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </svg>
+                                <span class="ms-1">Tin nhắn</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="@Url.Action("Details","ParkingSite")" ;" role="tab" aria-selected="false">
+                                <svg class="text-dark" width="16px" height="16px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <title>settings</title>
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <g transform="translate(-2020.000000, -442.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                                            <g transform="translate(1716.000000, 291.000000)">
+                                                <g transform="translate(304.000000, 151.000000)">
+                                                    <polygon class="color-background" opacity="0.596981957" points="18.0883333 15.7316667 11.1783333 8.82166667 13.3333333 6.66666667 6.66666667 0 0 6.66666667 6.66666667 13.3333333 8.82166667 11.1783333 15.315 17.6716667">
+                                                    </polygon>
+                                                    <path class="color-background" d="M31.5666667,23.2333333 C31.0516667,23.2933333 30.53,23.3333333 30,23.3333333 C29.4916667,23.3333333 28.9866667,23.3033333 28.48,23.245 L22.4116667,30.7433333 L29.9416667,38.2733333 C32.2433333,40.575 35.9733333,40.575 38.275,38.2733333 L38.275,38.2733333 C40.5766667,35.9716667 40.5766667,32.2416667 38.275,29.94 L31.5666667,23.2333333 Z" opacity="0.596981957"></path>
+                                                    <path class="color-background" d="M33.785,11.285 L28.715,6.215 L34.0616667,0.868333333 C32.82,0.315 31.4483333,0 30,0 C24.4766667,0 20,4.47666667 20,10 C20,10.99 20.1483333,11.9433333 20.4166667,12.8466667 L2.435,27.3966667 C0.95,28.7083333 0.0633333333,30.595 0.00333333333,32.5733333 C-0.0583333333,34.5533333 0.71,36.4916667 2.11,37.89 C3.47,39.2516667 5.27833333,40 7.20166667,40 C9.26666667,40 11.2366667,39.1133333 12.6033333,37.565 L27.1533333,19.5833333 C28.0566667,19.8516667 29.01,20 30,20 C35.5233333,20 40,15.5233333 40,10 C40,8.55166667 39.685,7.18 39.1316667,5.93666667 L33.785,11.285 Z">
+                                                    </path>
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </svg>
+                                <span class="ms-1"> Cập nhật thông tin</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid py-4">
+    @{
+        var countFloor = Floor.Length;
+        if (countFloor > 1)
+        {
+            for (var i = 1; i <= countFloor; i++)
+            {
+                <div class=" row">
+                    <div class="col-12">
+                        <div class="card mb-4">
+                            <div class="card-header pb-0">
+                                <h5>Tầng @i</h5>
+                            </div>
+                            <div class="row">
+                                @foreach (var item in Model)
+                                {
+                                    if (item.Floor == i)
+                                    {
+                                        if (item.Status == true)
+                                        {
+                                            var bk = BookingList.Where(x => x.SlotNo.Equals(item.SlotNo.ToString())).OrderByDescending(x => x.PutTime).FirstOrDefault();
+                                            var bkID = bk.BookingID;
+                                            <div class="col-md-2 p-lg-3">
+                                                <div class="card" style="border-style:solid; border-color: #42C385 ">
+                                                    <div class="card-header mx-4 p-3 text-center">
+                                                        <div class="icon icon-shape icon-lg bg-gradient-primary shadow text-center border-radius-lg">
+                                                            <i class="fa fa-automobile opacity-10"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body pt-0 p-3 text-center">
+                                                        <input type="hidden" s id="expOut" name="expOut" class="form-control mb-2 " @*style="display:none !important"*@ value="@bk.ExpOut" />
+                                                        <input type="hidden" id="bkID" name="expOut" class="form-control mb-2 " value="@bk.BookingID" />
+                                                        <h6 class="text-center mb-0">@item.SlotNo</h6>
+                                                        <h6 class="text-center mb-0">@bk.CusName</h6>
+                                                        <h6 class="text-center mb-0">@bk.Phone</h6>
+                                                        <a href="#updateBookDialog" class="btn btn-block btn-light open-UpdateBookDialog" data-toggle="modal" data-target="#modal-form1" data-id1="@item.PkSlotID" data-slot="@item.SlotNo" data-bkid="@bk.BookingID" style="background: #42C385;color:white">Gia Hạn / Rời Bãi </a>
+                                                        <hr class="horizontal dark my-3">
+                                                        <h6 id="demo" class="mb-0 alert"></h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="col-md-2 p-lg-3">
+                                                <div class="card">
+                                                    <div class="card-header mx-4 p-3 text-center">
+                                                        <div class="icon icon-shape icon-lg bg-gradient-primary shadow text-center border-radius-lg">
+                                                            <i class="fa fa-automobile opacity-10"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body pt-0 p-3 text-center">
+                                                        <h6 class="text-center mb-0">@item.SlotNo</h6>
+                                                        <h6 class="text-center mb-0">&nbsp</h6>
+                                                        <h6 class="text-center mb-0">&nbsp</h6>
+                                                        <a href="#addBookDialog" class="btn btn-block btn-light open-AddBookDialog" data-toggle="modal" data-target="#modal-form" data-id="@item.PkSlotID" data-vitriodo="@item.SlotNo" data-pk=@PkID>Xử Lý Vào Bãi</a>
+                                                        <hr class="horizontal dark my-3">
+                                                        <h5 id="oTrong" class=" mb-0  alert-white"> &nbsp;<br /> &nbsp; </h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    }
+    <footer class="footer pt-3  ">
+        <div class="container-fluid">
+            <div class="row align-items-center justify-content-lg-between">
+                <div class="col-lg-6 mb-lg-0 mb-4">
+                    <div class="copyright text-center text-sm text-muted text-lg-start">
+                        ©
+                        <script>
+                            document.write(new Date().getFullYear())
+                        </script>,
+                        made with <i class="fa fa-heart"></i> by
+                        <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Le Hoang Long</a>
+                        for a better web.
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <ul class="nav nav-footer justify-content-center justify-content-lg-end">
+                        <li class="nav-item">
+                            <a href="https://www.creative-tim.com" class="nav-link text-muted" target="_blank">Le Hoang Long</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="https://www.creative-tim.com/presentation" class="nav-link text-muted" target="_blank">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="https://www.creative-tim.com/blog" class="nav-link text-muted" target="_blank">Blog</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted" target="_blank">License</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>   
+</div>
+<div class="modal fade" id="modal-form2" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+    <div class="modal-dialog modal- modal-dialog-centered modal-sm" role="document" id="addParkingSlot">
+        <div class="modal-content">
+            <div class="modal-body p-0">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="text-center text-muted mb-4">
+                            <h4 class="font-bold">Thông tin ô đỗ mới</h4>
+                        </div>
+                        @using (Html.BeginForm("AddSlot", "ParkingSite", FormMethod.Post))
+                        {
+
+                            @Html.AntiForgeryToken()
+                            <div class="form-group">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <input type="hidden" id="pkID1" name="PkID" class="form-control mb-2" />
+                                <input class="form-control mb-2" type="text" name="SlotNo" required placeholder="Nhập số thứ tự">
+                                <input class="form-control mb-2" type="text" id="floor" name="Floor" required="" placeholder="Nhập số tầng">
+                                <div id="container"></div>
+                                <input type="button" id="generate" />
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary my-4">Xác Nhận</button>
+                            </div>
+                        }
+                        <div class="text-black text-left">
+                            <ul>
+                                <li class="text-xs text-gray-500 font-medium">- Nếu khàng hàng đặt trên 30 ngày sẽ được tính tiền theo giá tháng !</li>
+                                <li class="text-xs text-gray-500 font-medium">- Thời gian đặt xe là 30p. Yêu cầu khách hàng đến bãi để xác nhận !</li>
+                                <li class="text-xs text-gray-500 font-medium">- Đậu xe quá thời hạn sẽ áp dụng tiền phạt theo quy định !</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+    <div class="modal-dialog modal- modal-dialog-centered modal-sm" role="document" id="addBookDialog">
+        <div class="modal-content">
+            <div class="modal-body p-0">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="text-center text-muted mb-4">
+                            <h4 class="font-bold">Nhập thông tin đặt chỗ</h4>
+                        </div>
+                        @using (Html.BeginForm("Create", "Bookings", FormMethod.Post))
+                        {
+
+                            @Html.AntiForgeryToken()
+                            <div class="form-group">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <input type="text" id="PkSlotID" name="PkSlotID" class="form-control mb-2 " @*style="display:none !important"*@ />
+                                <input type="text" id="SlotNo" name="SlotNo" class="form-control mb-2" />
+                                <input type="text" id="pkID" name="PkID" class="form-control mb-2" />
+                                <input class="form-control mb-2" type="text" name="CusName" required placeholder="Nhập Tên Khách Hàng">
+                                <input class="form-control mb-2" type="text" name="Phone" required="" placeholder="Nhập Số Điện Thoại" maxlength="10"
+                                       pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b">
+                                <input class="form-control mb-2" type="text" name="CarNo" placeholder="Nhập Biển Số Xe">
+                                <small class="text-black">Chọn thời gian ra bãi </small>
+                                <div class="input-group input-group-merge input-group-alternative mb-2">
+                                    <input class="form-control" type="datetime-local" name="ExpOut" required>
+                                </div>
+
+
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary my-4">Xác Nhận</button>
+                            </div>
+                        }
+                        <div class="text-black text-left">
+                            <ul>
+                                <li class="text-xs text-gray-500 font-medium">- Nếu khàng hàng đặt trên 30 ngày sẽ được tính tiền theo giá tháng !</li>
+                                <li class="text-xs text-gray-500 font-medium">- Thời gian đặt xe là 30p. Yêu cầu khách hàng đến bãi để xác nhận !</li>
+                                <li class="text-xs text-gray-500 font-medium">- Đậu xe quá thời hạn sẽ áp dụng tiền phạt theo quy định !</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-form1" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+    <div class="modal-dialog modal- modal-dialog-centered modal-sm" role="document" id="updateBookDialog">
+        <div class="modal-content">
+            <div class="modal-body p-0">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="text-center text-muted mb-4">
+                            <h4 class="font-bold">Thông Tin Đặt Chỗ</h4>
+                        </div>
+                        @using (Html.BeginForm("Edit", "Bookings", FormMethod.Post))
+                        {
+
+                            @Html.AntiForgeryToken()
+                            <div class="form-group">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <input type="text" id="BkID" name="BkID" class="form-control mb-2 " @*style="display:none !important"*@ value="" />
+                                <input type="text" id="PkSlotId" name="PkSlotId" class="form-control mb-2 " @*style="display:none !important"*@ value="" />
+                                <input type="text" id="Slot" name="Slot" class="form-control mb-2" value="" />
+                                <input type="hidden" id="pkID" name="PkID" class="form-control mb-2" value="" />
+                                <input class="form-control mb-2" type="text" id="CusName" name="CusName" value="" placeholder="Nhập Tên Khách Hàng">
+                                <input class="form-control mb-2" type="text" id="Phone" name="Phone" value="" placeholder="Nhập Số Điện Thoại" maxlength="10"
+                                       pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b">
+                                <input class="form-control mb-2" type="text" id="CarNo" name="CarNo" placeholder="Nhập Biển Số Xe">
+                                <small>Cập nhật lại thời gian ra bãi</small>
+                                <div class="input-group input-group-merge input-group-alternative mb-2">
+                                    <input class="form-control" type="datetime-local" id="ExpOut" name="ExpOut" placeholder="Cập nhật lại thời gian ra bãi" required>
+                                </div>
+
+
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary my-4">Cập Nhật</button>
+                                <a href="#updateStatus" class="btn btn-warning  my-4 updateStatus">Xuất Bãi</a>
+                            </div>
+                        }
+                        <div class="text-black text-left">
+                            <ul>
+                                <li class="text-xs text-gray-500 font-medium">- Nếu khàng hàng đặt trên 30 ngày sẽ được tính tiền theo giá tháng !</li>
+                                <li class="text-xs text-gray-500 font-medium">- Thời gian đặt xe là 30p. Yêu cầu khách hàng đến bãi để xác nhận !</li>
+                                <li class="text-xs text-gray-500 font-medium">- Đậu xe quá thời hạn sẽ áp dụng tiền phạt theo quy định !</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).on("click", ".open-AddBookDialog", function () {
+        var myBookId = $(this).data('id');
+        var slotNo = $(this).data('vitriodo');
+        var pkID = $(this).data('pk');
+        console.log(pkID);
+        $("#PkSlotID").val(myBookId);
+        $("#SlotNo").val(slotNo);
+        $("#pkID").val(pkID);
+
+        // As pointed out in comments,
+        // it is unnecessary to have to manually call the modal.
+        // $('#addBookDialog').modal('show');
+    });
+</script>
+<script type="text/javascript">
+    $(document).on("click", ".op-addParkingSlot", function () {
+        var pkID = $(this).data('id2');
+        console.log(pkID);
+        $("#pkID1").val(pkID);
+
+        // As pointed out in comments,
+        // it is unnecessary to have to manually call the modal.
+        // $('#addBookDialog').modal('show');
+    });
+</script>
+<script type="text/javascript">
+    $(document).on("click", ".open-UpdateBookDialog", function () {
+
+        var bkID = $(this).data('bkid');
+        //var bkID = document.getElementById("bkID").value;
+        console.log(bkID);
+        var bkList =(@Html.Raw(Json.Encode(BookingList))) ;
+        console.log(bkList);
+        var bk;
+        bkList.forEach((item) => {
+            if (item.BookingID === bkID) {
+            console.log(item.BookingID);
+                bk = item
+                //'one' will delete from array
+            }
+        });
+        console.log(bk.PkSlotID);
+        var pslID = bk.PkSlotID;
+        var pkID = bk.PkID;
+        var pkSl = bk.SlotNo;
+        var cusName = bk.CusName;
+        var phone = bk.Phone;
+        var carNo = bk.CarNo;
+        var expOut = bk.expOut;
+        // var fine = bk.Fine;
+        var exptotalPr = bk.ExpTotalPrice
+        console.log(exptotalPr);
+        $("#BkID").val(bkID);
+        $("#PkSlotId").val(pslID);
+        $("#Slot").val(pkSl);
+        $("#pkID").val(pkID);
+        $("#CusName").val(cusName);
+        $("#Phone").val(phone);
+        $("#CarNo").val(carNo);
+        $("#ExpOut").val(expOut);
+        $("#ExptotalPrice").val(exptotalPr);
+        //$("#Fine").val(fines);
+
+        // As pointed out in comments,
+        // it is unnecessary to have to manually call the modal.
+        // $('#addBookDialog').modal('show');
+    });
+</script>
+<script>
+    // Set the date we're counting down to
+    //var countDownDate = new Date("Jan 5, 2024 15:37:25").getTime();
+    var countDownDate = [];
+    var exp = document.querySelectorAll("#expOut");
+    for (var i = 0; i < exp.length; i++) {
+        console.log(exp[i].value);
+        var time = new Date(exp[i].value).getTime();
+        countDownDate.push(time);
+        // var countDownDate = new Date(exp[i].value).getTime();
+    }
+    // Update the count down every 1 second
+    var x = setInterval(function () {
+        // Get today's date and time
+        var now = new Date().getTime();
+
+        //var distance = countDownDate - now;
+        var distance = [];
+        // Find the distance between now and the count down date
+        for (var i = 0; i < countDownDate.length; i++) {
+            if (countDownDate[i] > now) {
+                distance.push(countDownDate[i] - now);
+            }
+            else {
+                distance.push(-(now - countDownDate[i]));
+            }
+        }
+        var elements = document.getElementsByClassName("mb-0 alert");
+        // Time calculations for days, hours, minutes and seconds
+        for (var j = 0; j < distance.length; j++) {
+            var days = Math.floor(Math.abs(distance[j]) / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((Math.abs(distance[j]) % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((Math.abs(distance[j]) % (1000 * 60 * 60)) / (1000 * 60));
+            /*            var seconds = Math.floor((distance[j] % (1000 * 60)) / 1000);*/
+            //distArr.push(new dist(days, hours, minutes, seconds));
+            for (var i = j; i < elements.length; i++) {
+                if (distance[j] < 0) {
+                    //sclearInterval(x);
+                    elements[i].innerHTML = "Trễ" + days + "d " + hours + "h " + minutes + "m ";
+                    elements[i].style.backgroundColor = 'red';
+                    elements[i].style.color = 'white';
+
+                }
+                else {
+                    elements[i].innerHTML = "Còn" + days + "d " + hours + "h " + minutes + "m ";
+                    elements[i].style.backgroundColor = 'white';
+                    elements[i].style.color = 'black';
+                }
+            }
+
+        }
+        // Output the result in an element with id="demo"
+        //document.getElementById("mb-0 alert").innerHTML = days + "d " + hours + "h "
+        //    + minutes + "m " + seconds + "s ";
+        //for (var i = 0; i < elements.length; i++) {
+        //    for (var j = i; j < distArr.length; j++) {
+        //        elements[i].innerHTML = distArr[i].days + "d " + distArr[i].hours + "h "
+        //            + distArr[i].minutes + "m " + distArr[i].seconds + "s ";
+        //        if (distArr[i].days < 0 || distArr[i].minutes < 0 || distArr[i].hours < 0 || distArr[i].seconds<0) {
+        //            for (var i = 0; i < elements.lengtsh; i++) {
+        //                //sclearInterval(x);
+        //                elements[i].innerHTML = "Trễ" + distArr[i].days + "d " + distArr[i].hours + "h "
+        //                    + distArr[i].minutes + "m " + distArr[i].seconds + "s ";
+        //                elements[i].style.backgroundColor = 'red';
+        //                elements[i].style.color = 'white';
+
+        //            }
+
+        //        }
+        //    }
+
+        //}
+
+        // If the count down is over, write some text
+
+    }, 100);
+
+
+</script>
+<script>
+    $(document).on("click", ".updateStatus", function () {
+        var id = document.getElementById("BkID").value;
+        console.log(id);
+        //var valorAccion = $('#Table tr:eq(0) td:eq(1)').text();
+        window.location.href = '@Url.Action("Create", "OrderInvoids")?bkID=' + id;
+    });
+</script>

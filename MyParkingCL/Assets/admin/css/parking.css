@@ -1,0 +1,121 @@
+﻿body {
+    background-color: #EEEEEE
+}
+
+a {
+    text-decoration: none !important
+}
+
+.card-product-list,
+.card-product-grid {
+    margin-bottom: 0
+}
+
+.card {
+    height:350px;
+    width: 150px;
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 23px;
+    margin-top: 50px
+   
+}
+
+.card-product-grid:hover {
+    -webkit-box-shadow: 0 4px 15px rgba(153, 153, 153, 0.3);
+    box-shadow: 0 4px 15px rgba(153, 153, 153, 0.3);
+    -webkit-transition: .3s;
+    transition: .3s
+}
+
+.card-product-grid .img-wr {
+    border-radius:23px;
+    height: 150px
+}
+
+.card .img-wrap {
+    overflow: hidden
+}
+
+.card-lg .img-wrap {
+    height: 150px
+
+}
+
+.card-product-grid .img-wrap {
+    border-radius: 0.2rem 0.2rem 0 0;
+    height: 150px;
+
+}
+
+[class*='card-product'] .img-wrap img {
+    height: 100%;
+    max-width: 100%;
+    width: auto;
+    display: inline-block;
+    -o-object-fit: cover;
+    object-fit: cover
+}
+
+.img-wrap {
+    text-align: center;
+    display: block
+}
+
+.card-product-grid .info-wrap {
+    overflow: hidden;
+    padding: 18px 20px
+}
+
+
+.card-product-grid .bottom-wrap {
+    padding: 18px;
+    border-top: 1px solid #e4e4e4
+}
+
+.bottom-wrap-payment {
+    padding: 0px;
+    border-top: 1px solid #e4e4e4
+}
+
+.cusName {
+    text-align: center !important;
+    margin: 2px;
+    font-size: 13px;
+    color: white
+}
+
+.Otime {
+    text-align: center !important;
+    margin: 2px;
+    font-size: 10px;
+    color: white
+}
+.tenO {
+    text-align: center !important;
+    margin: 2px;
+    font-size: 16px;
+    color: white
+}
+
+
+.btn-primary {
+    width :100%;
+    margin : 0 auto;
+    font-size: 15px;
+    color: white
+}
+.fa {
+    color: #FF5722
+}

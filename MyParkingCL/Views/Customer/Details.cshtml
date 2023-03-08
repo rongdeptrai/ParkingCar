@@ -1,0 +1,88 @@
+﻿@model ParkingCore.Models.Customer
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var listCar = (List<ParkingCore.Models.Car>)ViewBag.CarDetail;
+}
+
+@section About {
+    <div class=" section-shaped h-20" style="height: 100px !important;">
+        <div class="shape shape-style-3 shape-default h-20 " style="height : 100px !important">
+
+        </div>
+    </div>
+}
+<div class="">
+    <section class="section-profile-cover section-shaped my-0 ">
+        <!-- Circles background -->
+        <img class="bg-image" src="~/Assets/client/assets/img/pages/mohamed.jpg" style="width: 100%;">
+        <!-- SVG separator -->
+        <div class="separator separator-bottom separator-skew">
+            <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                <polygon class="fill-secondary" points="2560 0 2560 100 0 100"></polygon>
+            </svg>
+        </div>
+    </section>
+    <section class="section bg-secondary">
+        <div class="container">
+            <div class="card card-profile shadow mt--300">
+                <div class="px-4">
+                    <div class="row justify-content-center items-start">
+                        <div class="col-lg-3 order-lg-2">
+                            <div class="card-profile-image mt-4">
+                                <a href="javascript:;">
+                                    <img @*src="@Html.DisplayFor(model => model.HinhAnh)"*@ class="rounded-circle object-cover h-40 w-40 block mx-auto">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 order-lg-3 text-lg-right align-self-lg-start">
+                            <div class="card-profile-actions py-4 mt-lg-0">
+                                <a href="@Url.Action("Edit", "KhachHangs" ,new { id = @Model.CusID })" class="btn btn-sm btn-default float-right">Sửa Thông Tin</a>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 order-lg-1">
+
+                        </div>
+                    </div>
+                    <div class="text-center mt-5">
+                        <h3>@Html.DisplayFor(model => model.CusName)<span class="font-weight-light">, 27</span></h3>
+                        <div class="h6 font-weight-300"><i class="ni location_pin mr-2"></i>Địa Chỉ : @Html.DisplayFor(model => model.Address)</div>
+                        <div class="h6 mt-4"><i class="ni business_briefcase-24 mr-2"></i>Số điện thoại : @Html.DisplayFor(model => model.Phone)</div>
+                        <div><i class="ni education_hat mr-2"></i>Email : @Html.DisplayFor(model => model.Email)</div>
+                    </div>
+                    <div class="mt-5 pb-4 pt-2 border-top text-center">
+                        @{ var count = listCar.Count();}
+                        <p class="mt-1">Tổng xe @count</p>
+                        <div class="row justify-content-center">
+                            <div class="col-lg-9 flex justify-center">
+                                @foreach (var item in listCar)
+                                {
+                                    <div>
+                                        <div class="outline-white mr-4 block border-2 border-gray-500 p-4 w-48">
+                                            @*<p class="font-medium m-0 p-0 text-black"> @item.HangXe</p>*@
+                                            <p class="font-medium m-0 p-0 text-black"> @item.CarNo</p>
+                                            <p class="font-medium m-0 p-0 text-black"> @item.CarType</p>
+
+
+                                        </div>
+                                        <a class=" mr-4 block border-2 bg-green-500 p-1 text-white" href="@Url.Action("Edit","ChiTietXes",new { id = item.CarType })">Chỉnh sửa </a>
+                                        @*<a class=" mr-4 block border-2 bg-red-500 p-1 text-white" href="@Url.Action("Delete","ChiTietXes",new { id = item.MaCTX })">Xóa </a>*@
+                                        <a class=" mr-4 block border-2 bg-red-500 p-1 text-white" href="#">Xóa </a>
+                                    </div>
+
+                                }
+                                <a class="border-dashed border-4 border-gray-400 p-4 text-black p-4 block w-48" href="@Url.Action("Create","ChiTietXes",new  { id = Model.CusID  })">
+                                    <span class="btn btn-success my-auto ">Thêm Xe</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CusID }) |
+</p>

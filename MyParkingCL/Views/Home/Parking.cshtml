@@ -1,0 +1,366 @@
+﻿@model IEnumerable<ParkingCore.Models.ParkingSlot>
+@using System.Linq
+@{
+    var session = ViewBag.session;
+    var Floor = ViewBag.Floor;
+    var PkID = ViewBag.pkID;
+    var BookingList = (List<ParkingCore.Models.Booking>)ViewBag.Bookings;
+    var a = DateTime.Now;
+    ViewBag.Title = "Đặt chỗ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section About{
+    <div class="section section-hero section-shaped">
+        <div class="shape shape-style-3 shape-default">
+            <span class="span-150"></span>
+            <span class="span-50"></span>
+            <span class="span-50"></span>
+            <span class="span-75"></span>
+            <span class="span-100"></span>
+            <span class="span-75"></span>
+            <span class="span-50"></span>
+            <span class="span-100"></span>
+            <span class="span-50"></span>
+            <span class="span-100"></span>
+        </div>
+        <div class="page-header">
+            <div class="container shape-container d-flex align-items-center py-lg">
+
+                <div class="col px-0">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-lg-6 text-center">
+
+                            <h2 class="display-4 font-weight-normal text-white"> Chào Mừng Bạn Đến Với</h2>
+                            <h1 class="text-white display-1">My Parking</h1>
+                            <div class="btn-wrapper mt-4">
+                                <a href="#datcho" class="btn btn-warning btn-icon mt-3 mb-sm-0">
+                                    <span class="btn-inner--icon"><i class="ni ni-button-play"></i></span>
+                                    <span class="btn-inner--text">Đặt Ngay !</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="separator separator-bottom separator-skew zindex-100">
+            <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                <polygon class="fill-white" points="2560 0 2560 100 0 100"></polygon>
+            </svg>
+        </div>
+    </div>
+
+}
+<div class="container mt-4">
+    <div class="flex items-center" id="datcho">
+        <div class="w-12 h-8 bg-danger rounded"></div><span class="ml-2 mr-4">Đang sử dụng</span>
+        <div class="w-12 h-8 bg-pink rounded"></div><span class="ml-2 mr-4">Ô đỗ của bạn</span>
+        <div class="w-12 h-8 bg-success rounded"></div><span class="ml-2 mr-4">Đang trống</span>
+    </div>
+    @{
+        var countFloor = Floor.Length;
+        if (countFloor > 1)
+        {
+            for (var i = 1; i <= countFloor; i++)
+            {
+                <div class=" row">
+                    <div class="col-12">
+                        <div class="card mb-4">
+                            <div class="card-header pb-0">
+                                <h2 class="my-3 p-3 text-lg-center font-weight-bold text-uppercase bg-info text-white">Tầng @i</h2>
+                            </div>
+                            <div class="row">
+                                @foreach (var item in Model)
+                                {
+                                    if (item.Floor == i)
+                                    {
+                                        if (item.Status == true)
+                                        {
+                                            var bk = BookingList.Where(x => x.SlotNo.Equals(item.SlotNo.ToString())).OrderByDescending(x => x.PutTime).FirstOrDefault();
+                                            var bkID = bk.BookingID;
+
+                                            if (session.Phone == bk.Phone)
+                                            {
+                                                <div class="col-sm-3 p-lg-3">
+                                                    <div class="card bg-pink">
+                                                        <div class="card-body pt-0 p-3 text-center">
+                                                            <input type="hidden" s id="expOut" name="expOut" class="form-control mb-2 " @*style="display:none !important"*@ value="@bk.ExpOut" />
+                                                            <input type="hidden" id="bkID" name="expOut" class="form-control mb-2 " value="@bk.BookingID" />
+                                                            <h6 id="text-content"class="text-center mb-0">Ô Đỗ @item.SlotNo</h6>
+                                                            <h6 id="text-content" class="text-center mb-0">@bk.CusName</h6>
+                                                            <h6  id="text-content"class="text-center mb-0">@bk.Phone</h6>
+                                                            <a href="#updateBookDialog" class="btn btn-block btn-light open-UpdateBookDialog" data-toggle="modal" data-target="#modal-form1" data-id1="@item.PkSlotID" data-slot="@item.SlotNo" data-bkid="@bk.BookingID" style="background: #42C385;color:white">Gia Hạn / Hủy </a>
+                                                            <hr class="horizontal dark my-3">
+                                                            <h6 id="demo" class="mb-0 alert"></h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="col-sm-3 p-lg-3">
+                                                    <div class="card bg-danger">
+                                                        <div class="card-body pt-0 p-3 text-center">
+                                                            <h6  id="text-content" class="text-center mb-0">Ô Đỗ @item.SlotNo</h6>
+                                                            <h6  id="text-content" class="text-center mb-0">@bk.CusName</h6>
+                                                            <h6 id="text-content"  class="text-center mb-0">@bk.Phone</h6>
+                                                            <a href="#" class="btn btn-block btn-warning" style="color:white">Đã được đặt</a>
+                                                            <hr class="horizontal dark my-3">
+                                                            <h6 id="demo" class="mb-0 alert"></h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            <div class="col-sm-3 p-lg-3">
+                                                <div class="card bg-success">
+                                                    <div class="card-body pt-0 p-3 text-center">
+                                                        <h6 id="text-content" class="text-center mb-0">Ô Đỗ @item.SlotNo</h6>
+                                                        <h6 id="text-content" class="text-center mb-0">&nbsp</h6>
+                                                        <h6 id="text-content" class="text-center mb-0">&nbsp</h6>
+                                                        <a href="#addBookDialog" class="btn btn-block btn-danger open-AddBookDialog" data-toggle="modal" data-target="#modal-form" data-id="@item.PkSlotID" data-vitriodo="@item.SlotNo" data-pk=@PkID>Đặt ngay</a>
+                                                        <hr class="horizontal dark my-3">
+                                                        <h6 id="oTrong" class=" mb-1  bg-success">  &nbsp;<br /> &nbsp; </h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        }
+                                    }
+                                }
+                            </div>
+                        </div>
+                     </div>
+                </div>
+            }
+        }
+    }
+    </div>
+    <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+        <div class="modal-dialog modal- modal-dialog-centered modal-sm" role="document" id="addBookDialog">
+            <div class="modal-content">
+                <div class="modal-body p-0">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="text-center text-muted mb-4">
+                                <h4 class="font-bold">Nhập thông tin đặt chỗ</h4>
+                            </div>
+                            @using (Html.BeginForm("Create", "Bookings", FormMethod.Post))
+                            {
+
+                                @Html.AntiForgeryToken()
+                                <div class="form-group">
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    <input type="text" id="PkSlotID" name="PkSlotID" class="form-control mb-2 " @*style="display:none !important"*@ />
+                                    <input type="text" id="SlotNo" name="SlotNo" class="form-control mb-2" />
+                                    <input type="text" id="pkID" name="PkID" class="form-control mb-2" />
+                                    <input class="form-control mb-2" type="text" name="CusName" value="@session.Name" required placeholder="Nhập Tên Khách Hàng">
+                                    <input class="form-control mb-2" type="text" name="Phone" value="@session.Phone" required="" placeholder="Nhập Số Điện Thoại" maxlength="10"
+                                           pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b">
+                                    <input class="form-control mb-2" type="text" name="CarNo" placeholder="Nhập Biển Số Xe">
+                                    <small class="text-black">Chọn thời gian ra bãi </small>
+                                    <div class="input-group input-group-merge input-group-alternative mb-2">
+                                        <input class="form-control"  id="ExpOut" type="datetime-local" name="ExpOut" required>
+                                    </div>
+
+
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary my-4">Xác Nhận</button>
+                                </div>
+                            }
+                            <div class="text-black text-left">
+                                <ul>
+                                    <li class="text-xs text-gray-500 font-medium">- Nếu khàng hàng đặt trên 30 ngày sẽ được tính tiền theo giá tháng !</li>
+                                    <li class="text-xs text-gray-500 font-medium">- Thời gian đặt xe là 30p. Yêu cầu khách hàng đến bãi để xác nhận !</li>
+                                    <li class="text-xs text-gray-500 font-medium">- Đậu xe quá thời hạn sẽ áp dụng tiền phạt theo quy định !</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal-form1" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+        <div class="modal-dialog modal- modal-dialog-centered modal-sm" role="document" id="updateBookDialog">
+            <div class="modal-content">
+                <div class="modal-body p-0">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="text-center text-muted mb-4">
+                                <h4 class="font-bold">Thông Tin Đặt Chỗ</h4>
+                            </div>
+                            @using (Html.BeginForm("Edit", "Bookings", FormMethod.Post))
+                            {
+
+                                @Html.AntiForgeryToken()
+                                <div class="form-group">
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    <input type="text" id="BkID" name="BkID" class="form-control mb-2 " @*style="display:none !important"*@ value="" />
+                                    <input type="text" id="PkSlotId" name="PkSlotId" class="form-control mb-2 " @*style="display:none !important"*@ value="" />
+                                    <input type="text" id="Slot" name="Slot" class="form-control mb-2" value="" />
+                                    <input type="hidden" id="pkID" name="PkID" class="form-control mb-2" value="" />
+                                    <input class="form-control mb-2" type="text" id="CusName" name="CusName" value="" placeholder="Nhập Tên Khách Hàng">
+                                    <input class="form-control mb-2" type="text" id="Phone" name="Phone" value="" placeholder="Nhập Số Điện Thoại" maxlength="10"
+                                           pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b">
+                                    <input class="form-control mb-2" type="text" id="CarNo" name="CarNo" placeholder="Nhập Biển Số Xe">
+                                    <small>Cập nhật lại thời gian ra bãi</small>
+                                    <div class="input-group input-group-merge input-group-alternative mb-2">
+                                        <input class="form-control" type="datetime-local" id="ExpOut" name="ExpOut" placeholder="Cập nhật lại thời gian ra bãi" required>
+                                    </div>
+
+
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary my-4">Cập Nhật</button>
+                                    <a href="#updateStatus" class="btn btn-warning  my-4 updateStatus">Rời Bãi</a>
+                                </div>
+                            }
+                            <div class="text-black text-left">
+                                <ul>
+                                    <li class="text-xs text-gray-500 font-medium">- Nếu khàng hàng đặt trên 30 ngày sẽ được tính tiền theo giá tháng !</li>
+                                    <li class="text-xs text-gray-500 font-medium">- Thời gian đặt xe là 30p. Yêu cầu khách hàng đến bãi để xác nhận !</li>
+                                    <li class="text-xs text-gray-500 font-medium">- Đậu xe quá thời hạn sẽ áp dụng tiền phạt theo quy định !</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).on("click", ".open-AddBookDialog", function () {
+            var myBookId = $(this).data('id');
+            var slotNo = $(this).data('vitriodo');
+            var pkID = $(this).data('pk');
+            console.log(pkID);
+            $("#PkSlotID").val(myBookId);
+            $("#SlotNo").val(slotNo);
+            $("#pkID").val(pkID);
+
+            // As pointed out in comments,
+            // it is unnecessary to have to manually call the modal.
+            // $('#addBookDialog').modal('show');
+        });
+    </script>
+    <script type="text/javascript">
+    $(document).on("click", ".open-UpdateBookDialog", function () {
+
+        var bkID = $(this).data('bkid');
+        //var bkID = document.getElementById("bkID").value;
+        console.log(bkID);
+        var bkList =(@Html.Raw(Json.Encode(BookingList))) ;
+        console.log(bkList);
+        var bk;
+        bkList.forEach((item) => {
+            if (item.BookingID === bkID) {
+            console.log(item.BookingID);
+                bk = item
+                //'one' will delete from array
+            }
+        });
+        console.log(bk.PkSlotID);
+        var pslID = bk.PkSlotID;
+        var pkID = bk.PkID;
+        var pkSl = bk.SlotNo;
+        var cusName = bk.CusName;
+        var phone = bk.Phone;
+        var carNo = bk.CarNo;
+        var expOut = bk.expOut;
+        // var fine = bk.Fine;
+        var exptotalPr = bk.ExpTotalPrice
+        console.log(exptotalPr);
+        $("#BkID").val(bkID);
+        $("#PkSlotId").val(pslID);
+        $("#Slot").val(pkSl);
+        $("#pkID").val(pkID);
+        $("#CusName").val(cusName);
+        $("#Phone").val(phone);
+        $("#CarNo").val(carNo);
+        $("#ExpOut").val(expOut);
+        $("#ExptotalPrice").val(exptotalPr);
+        //$("#Fine").val(fines);
+
+        // As pointed out in comments,
+        // it is unnecessary to have to manually call the modal.
+        // $('#addBookDialog').modal('show');
+    });
+    </script>
+    <script>
+        $(document).ready(function () {
+            const boxes = document.querySelectorAll('#text-content');
+            boxes.forEach(box => {
+                console.log(box)
+                box.style.color = 'white';
+                box.style.fontWeight = "bold";
+            });
+            /*document.querySelectorAll('.text-center .mb-0').style.color = 'white';*/
+        });
+        // Set the date we're counting down to
+        //var countDownDate = new Date("Jan 5, 2024 15:37:25").getTime();
+        var countDownDate = [];
+        var exp = document.querySelectorAll("#expOut");
+        for (var i = 0; i < exp.length; i++) {
+            console.log(exp[i].value);
+            var time = new Date(exp[i].value).getTime();
+            countDownDate.push(time);
+            // var countDownDate = new Date(exp[i].value).getTime();
+        }
+        // Update the count down every 1 second
+        var x = setInterval(function () {
+            // Get today's date and time
+            var now = new Date().getTime();
+
+            //var distance = countDownDate - now;
+            var distance = [];
+            // Find the distance between now and the count down date
+            for (var i = 0; i < countDownDate.length; i++) {
+                if (countDownDate[i] > now) {
+                    distance.push(countDownDate[i] - now);
+                }
+                else {
+                    distance.push(-(now - countDownDate[i]));
+                }
+            }
+            var elements = document.getElementsByClassName("mb-0 alert");
+            // Time calculations for days, hours, minutes and seconds
+            for (var j = 0; j < distance.length; j++) {
+                var days = Math.floor(Math.abs(distance[j]) / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((Math.abs(distance[j]) % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((Math.abs(distance[j]) % (1000 * 60 * 60)) / (1000 * 60));
+                /*            var seconds = Math.floor((distance[j] % (1000 * 60)) / 1000);*/
+                //distArr.push(new dist(days, hours, minutes, seconds));
+                for (var i = j; i < elements.length; i++) {
+                    if (distance[j] < 0) {
+                        //sclearInterval(x);
+                        elements[i].style.backgroundColor = 'red';
+                        elements[i].innerHTML = "Trễ" + days + "d " + hours + "h " + minutes + "m ";
+                        elements[i].style.color = 'white';
+
+                    }
+                    else {
+                        elements[i].innerHTML = "Còn" + days + "d " + hours + "h " + minutes + "m ";
+                        elements[i].style.color = 'white';
+                    }
+                }
+
+            }
+
+
+        }, 100);
+
+
+    </script>
+    <script>
+    $(document).on("click", ".updateStatus", function () {
+        var id = document.getElementById("BkID").value;
+        console.log(id);
+        //var valorAccion = $('#Table tr:eq(0) td:eq(1)').text();
+        window.location.href = '@Url.Action("Create", "OrderInvoids")?bkID=' + id;
+    });
+    </script>
